@@ -1,0 +1,16 @@
+{
+  "name": "stealthnote_workshop",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "tsx index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "noir-jwt": "^1.0.0"
+  }
+}

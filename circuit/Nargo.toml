@@ -1,0 +1,7 @@
+[package]
+name = "stealthnote_workshop"
+type = "bin"
+authors = [""]
+
+[dependencies]
+jwt = { tag = "v0.3.1", git = "https://github.com/zkemail/noir-jwt" }
