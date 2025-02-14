@@ -5,7 +5,7 @@
 
 ```toml
 [dependencies]
-jwt = { tag = "v0.3.0", git = "https://github.com/zkemail/noir-jwt" }
+jwt = { tag = "v0.3.1", git = "https://github.com/zkemail/noir-jwt" }
 ```
 
 3. Update main.nr
