@@ -8,18 +8,14 @@ Example JWT:
 {
   "sub": "1234567890",
   "name": "John Doe",
-  "admin": true,
+  "admin": "true",
   "iat": 1739988753,
   "nonce": "6a32388c0d1be7835a6630b7b58f6796cc7ddc78698d12470d98d3c3d62792a4"
 }
 
 */
 
-const jwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTczOTk4ODc1Mywibm9uY2UiOiI2YTMyMzg4YzBkMWJlNzgzNWE2NjMwYjdiNThmNjc5NmNjN2RkYzc4Njk4ZDEyNDcwZDk4ZDNjM2Q2Mjc5MmE0In0.OPnPPh76cvaaghFtx_0Kyqa0YEy_XnLk1JRcGYTpufs9n0cVXUg3mC-XQsYvaHGI2wpBmisKVU9V5gjtYipKXMArr8ZRzEPnRa8UoYwfVdWCJ5iiSDnrKAoADA4unu-GU8KR1whja5hzpzElHu8gqtXNogn-e4JeF51m5PY9YUpmCJXMgsacps6Fu-vfTIXNGTCmGCNx7Pa1jLJr5NzEWKt6mthCmwHSFZZYjMAjhpnXJV5e1dfTTF4ALVWvn9Fx112Hwc4zIXuwRLyd-IdwOTtuJxXsZ_JzrToDkPJTMdETzHf5XfrJ-irQEFkHbvfTHEfIsrTpNWM10P43m5uQdQ"
-let chunks = jwt.split(".")
-chunks.map(c => {
-    console.log(c.length)
-})
+const jwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOiJ0cnVlIiwiaWF0IjoxNzM5OTg4NzUzLCJub25jZSI6IjZhMzIzODhjMGQxYmU3ODM1YTY2MzBiN2I1OGY2Nzk2Y2M3ZGRjNzg2OThkMTI0NzBkOThkM2MzZDYyNzkyYTQifQ.puxXuztYI1_Re09vND4t5nYlMWMwRBdEpKxxalOiWP9XkWcxt5tOwalXNUSmONCBnWC9OnkZqbsCco0WQ5XiBteZXu7SJdaUDa9w10vXYskLTf6-oTJT30GVlO8_a1qlrlQKO13bBF_2IWqiq27jl7erXDCfugoLEZTrVYcLluLqEfzaoKelYghNZVdmv4QOv-OcIBQJ83IfZLZSFLgnPpGb2YGCDi8lfAnKSdCwMmG9f5R3FjPBVzawdCZh38lj2n73omXfOIHT_kx4ibpN_NES6mkYAJVftaaMNXYzUVZBbUGjHj7zFDWiu_2SoMkcNjwe-zN1IfRXbeIhv_seJQ"
 
 async function main() {
     let publicJwk = JSON.parse(fs.readFileSync("./publicKey.json", "utf-8"))
@@ -28,7 +24,7 @@ async function main() {
         hash: 'SHA-256'
     }, true, ["verify"])
 
-    const maxSignedDataLength = 900
+    const maxSignedDataLength = 232
 
     const inputs = await generateInputs({
         jwt,
@@ -57,4 +53,4 @@ async function main() {
         console.log('File written successfully');
     });
 }
-// main()
+main()

@@ -1,6 +1,6 @@
 use jwt::JWT;
 
-global MAX_DATA_LENGTH: u32 = 900;
+global MAX_DATA_LENGTH: u32 = 232;
 global MAX_NONCE_LENGTH: u32 = 32;
 
 // this circuit is not verifying that the key matches anything
