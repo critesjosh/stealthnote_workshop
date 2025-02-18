@@ -1,8 +1,24 @@
 use jwt::JWT;
 
-global MAX_DATA_LENGTH: u32 = 900;
+global MAX_DATA_LENGTH: u32 = 128;
 global MAX_NONCE_LENGTH: u32 = 32;
 
+// this circuit is not verifying that the key matches anything
+// the verifier does this (public input to the circuit)
+
+// Trust assumption with google: google is attesting to the fact
+// that the prover has access to a certain top level domain.
+// google is also attesting to the fact
+// if the proof becomes public, Google can figure out who's it is
+// by matching the nonce
+//  - possible to fix using semaphore
+//    - create a group for each domain. prove membership to join group
+//    - google can find out that you joined the group (which they already know)
+//    - they cannot link users to messages like current impl
+//  - do it in Aztec. prove membership and then emit message in public log
+
+// partial hashing
+// stealthnote uses ephemeral
 fn main(
     data: BoundedVec<u8, MAX_DATA_LENGTH>,
     base64_decode_offset: u32,

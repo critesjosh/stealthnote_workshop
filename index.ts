@@ -1,23 +1,46 @@
 import { generateInputs } from "noir-jwt";
+import * as fs from "fs"
+// import TOML from '@iarna/toml'
 
-const jwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.NHVaYe26MbtOYhSKkoKYdFVomg4i8ZJd8_-RU8VNbftc4TSMb4bXP3l3YlNWACwyXPGffz5aXHc6lty1Y2t4SWRqGteragsVdZufDn5BlnJl9pdR_kdVFUsra2rWKEofkZeIC4yWytE58sMIihvo9H1ScmmVwBcQP6XETqYd0aSHp1gOa9RdUPDvoXQ5oqygTqVtxaDr6wUFKrKItgBMzWIdNZ6y7O9E0DhEPTbE9rfBo6KTFsHAZnMg4k68CDp2woYIaXbmYTWcvbzIuHO7_37GT79XdIwkm95QJ7hYC9RiwrV7mesbY4PAahERJawntho0my942XheVLmGwLMBkQ"
-const pubkey =
-    `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAu1SU1LfVLPHCozMxH2Mo
-4lgOEePzNm0tRgeLezV6ffAt0gunVTLw7onLRnrq0/IzW7yWR7QkrmBL7jTKEn5u
-+qKhbwKfBstIs+bMY2Zkp18gnTxKLxoS2tFczGkPLPgizskuemMghRniWaoLcyeh
-kd3qqGElvW/VDL5AaWTg0nLVkjRo9z+40RQzuVaE8AkAFmxZzow3x+VJYKdjykkJ
-0iT9wCS0DRTXu269V264Vf/3jvredZiKRkgwlL9xNAwxXFg0x/XFw005UWVRIkdg
-cKWTjpBP2dPwVZ4WWC+9aGVd+Gyn1o0CLelf4rEjGoXbAAEgAqeGUxrcIlbjXfbc
-mwIDAQAB
------END PUBLIC KEY-----`
+const jwt = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTczOTk4ODc1M30.SPbZJJpyk6jqLBRIum_da6rigJFzXG4hrl7bzd7uL__KAbfeJA0hyfur6r9f4ScJWUYA8ogsZDliE-cX3H-Xdm-xqxOoiZHGhk4M7TTzQMr7NyIumMxLC9-WaEFLiCk0laG2ryFkx1JbnAKJGTngmthhazTTJZHYib-7y7MrIH6aVZX6IegEOHtUnqxKOiOYkYtWxhhRf4SgAyZVzXj2xowqJUfo2lWSYZLFuZ7jNuVSi4gXls8WArOIN0UCcHGg1o2PG8StY7sHAu0yVO03bpjZYcrNw26jFKbrHItdO5Qw8sL217ShcFKRwHbJEQZI1poBqJ3m8CgSRxdm5-XDtw"
 
-const maxSignedDataLength = 900
+async function main() {
+    const keyPair = await crypto.subtle.generateKey(
+        {
+            name: 'RSASSA-PKCS1-v1_5',
+            modulusLength: 2048,
+            publicExponent: new Uint8Array([1, 0, 1]),  // 65537
+            hash: 'SHA-256'
+        },
+        true,  // extractable
+        ['sign', 'verify']
+    );
 
-const inputs = generateInputs({
-    jwt,
-    pubkey,
-    maxSignedDataLength,
-});
+    const publicJwk = await crypto.subtle.exportKey('jwk', keyPair.publicKey);
+    const privateJwk = await crypto.subtle.exportKey('jwk', keyPair.privateKey);
+    console.log("\nPublic JWK\n\n", JSON.stringify(publicJwk))
+    console.log("\nPrivate JWK\n\n", JSON.stringify(privateJwk), "\n\n")
 
-console.log(inputs)
+    const maxSignedDataLength = 128
+
+    const inputs = await generateInputs({
+        jwt: jwt,
+        pubkey: keyPair.publicKey,
+        maxSignedDataLength: maxSignedDataLength,
+    });
+
+    // const tomlString = TOML.stringify(inputs)
+    // fs.writeFileSync('./circuit/Prover.toml', tomlString)
+
+    fs.writeFile('inputs.json', JSON.stringify(inputs, (key, value) => {
+        // Convert BigInt to string with 'n' suffix
+        if (typeof value === 'bigint') {
+            return value.toString();
+        }
+        return value;
+    }, 2), (err) => {
+        if (err) throw err;
+        console.log('File written successfully');
+    });
+}
+main()
