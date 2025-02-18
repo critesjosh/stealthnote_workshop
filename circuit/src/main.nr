@@ -1,6 +1,6 @@
 use jwt::JWT;
 
-global MAX_DATA_LENGTH: u32 = 128;
+global MAX_DATA_LENGTH: u32 = 900;
 global MAX_NONCE_LENGTH: u32 = 32;
 
 // this circuit is not verifying that the key matches anything
@@ -39,5 +39,5 @@ fn main(
     jwt.verify();
 
     // Validate key value pair in payload JSON
-    jwt.assert_claim_string::<300, 5, MAX_NONCE_LENGTH>("nonce".as_bytes(), nonce);
+    jwt.assert_claim_string::<188, 5, MAX_NONCE_LENGTH>("nonce".as_bytes(), nonce);
 }

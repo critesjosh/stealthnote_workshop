@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "tsx index.ts"
+    "start": "tsx index.ts",
+    "keygen": "tsx generate_keys.ts"
   },
   "devDependencies": {
     "@types/node": "^22.13.4",

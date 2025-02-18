@@ -43,8 +43,9 @@ fn main(
 4. `nargo check`
    1. A Prover.toml is generated, with blank inputs. Let's generate some to test the program.
 5. `npm install noir-jwt @types/node tsx`
-6. `yarn start`
-7.
+6. `yarn keygen`
+7. `yarn start`
+8.
 
 ## Helpful resources
 
