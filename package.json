@@ -14,6 +14,6 @@
   "dependencies": {
     "@iarna/toml": "^2.2.5",
     "fs": "^0.0.1-security",
-    "noir-jwt": "^1.0.0"
+    "noir-jwt": "0.4.4"
   }
 }

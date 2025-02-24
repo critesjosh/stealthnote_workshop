@@ -39,5 +39,5 @@ fn main(
     jwt.verify();
 
     // Validate key value pair in payload JSON
-    jwt.assert_claim_string::<188, 5, MAX_NONCE_LENGTH>("nonce".as_bytes(), nonce);
+    jwt.assert_claim_string("nonce".as_bytes(), nonce);
 }
